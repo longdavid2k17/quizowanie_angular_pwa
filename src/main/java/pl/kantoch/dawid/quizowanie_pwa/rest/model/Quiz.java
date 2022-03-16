@@ -20,8 +20,15 @@ public class Quiz
     @Column(name = "description")
     private String description;
 
-    @Column(name = "subject")
-    private String subject;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(	name = "quiz_tags",
+            joinColumns = @JoinColumn(name = "quiz_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tagsSet;
 
     @Column(name = "creation_date")
     @CreationTimestamp
@@ -30,12 +37,12 @@ public class Quiz
     public Quiz() {
     }
 
-    public Quiz(Long id, String name, String description, String subject, Date creationDate)
-    {
+    public Quiz(Long id, String name, String description, Category category, Set<Tag> tagsSet, Date creationDate) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.subject = subject;
+        this.category = category;
+        this.tagsSet = tagsSet;
         this.creationDate = creationDate;
     }
 
@@ -63,12 +70,20 @@ public class Quiz
         this.description = description;
     }
 
-    public String getSubject() {
-        return subject;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Set<Tag> getTagsSet() {
+        return tagsSet;
+    }
+
+    public void setTagsSet(Set<Tag> tagsSet) {
+        this.tagsSet = tagsSet;
     }
 
     public Date getCreationDate() {
@@ -85,7 +100,8 @@ public class Quiz
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", subject='" + subject + '\'' +
+                ", category=" + category +
+                ", tagsSet=" + tagsSet +
                 ", creationDate=" + creationDate +
                 '}';
     }

@@ -23,11 +23,10 @@ public class HomeController
         this.quizService = quizService;
     }
 
-    @GetMapping("/get-all")
-    public ResponseEntity<?> findAllQuizes(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size)
+    @GetMapping("/find-all")
+    public ResponseEntity<?> findAllQuizes(Pageable pageable)
     {
-        Pageable paging = PageRequest.of(page, size);
-        return quizService.findAllPageable(paging);
+        return quizService.findAllPageable(pageable);
     }
 
     @GetMapping("/{id}")
