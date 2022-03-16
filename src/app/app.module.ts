@@ -6,36 +6,47 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { HomeComponent } from './components/home/home.component';
-import { NewQuizComponent } from './components/new-quiz/new-quiz.component';
 import { EditQuizComponent } from './components/edit-quiz/edit-quiz.component';
 import { PerformQuizComponent } from './components/perform-quiz/perform-quiz.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {ToastrModule} from "ngx-toastr";
 import {HttpClientModule} from "@angular/common/http";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatSelectModule} from "@angular/material/select";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatInputModule} from "@angular/material/input";
+import { QuizComponent } from './components/quiz/quiz.component';
+import { CreateQuizComponent } from './components/create-quiz/create-quiz.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    NewQuizComponent,
     EditQuizComponent,
-    PerformQuizComponent
+    PerformQuizComponent,
+    QuizComponent,
+    CreateQuizComponent
   ],
-    imports: [
-        BrowserModule,
-      HttpClientModule,
-      AppRoutingModule,
-        ServiceWorkerModule.register('ngsw-worker.js', {
-            enabled: environment.production,
-            // Register the ServiceWorker as soon as the app is stable
-            // or after 30 seconds (whichever comes first).
-            registrationStrategy: 'registerWhenStable:30000'
-        }),
-        BrowserAnimationsModule,
-        MatPaginatorModule,
-        ToastrModule.forRoot()
-    ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
+    BrowserAnimationsModule,
+    MatPaginatorModule,
+    ToastrModule.forRoot(),
+    FormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    MatInputModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

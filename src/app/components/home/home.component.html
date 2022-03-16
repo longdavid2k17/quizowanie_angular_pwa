@@ -1,1 +1,17 @@
+<div class="d-md-inline-flex row justify-content-center">
+
+  <div class="col-md-5 col-lg-4 col-xl-3 col-sm-6 d-flex align-items-stretch" *ngFor="let quiz of quizes" style="margin: 10px">
+    <div class="quizCard" (click)="openQuiz(quiz.id)">
+      <div class=" card shadow-lg border-0 py-2">
+        <div class="card-header border-0 mb-0">
+          <div class="row justify-content-between">
+            <div class="col-auto col-sm-auto">
+              <p>{{quiz.name}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" [length]="totalElements" (page)="nextPage($event)"> </mat-paginator>

@@ -1,0 +1,14 @@
+a:hover {
+  color: black;
+  font-size: 20px;
+  transition-delay: 0.1s;
+  transition-timing-function: linear;
+  transition-duration: 2s;
+}
+a {
+  color: black;
+  font-size: 15px;
+  transition-delay: 0.1s;
+  transition-timing-function: linear;
+  transition-duration: 2s;
+}

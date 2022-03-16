@@ -1,0 +1,12 @@
+.quizCard {
+  background-color: #92e0f6;
+  transition-delay: 0.1s;
+  transition-timing-function: linear;
+  transition-duration: 2s;
+}
+.quizCard:hover {
+  background-color: #00a5d0;
+  transition-delay: 0.1s;
+  transition-timing-function: linear;
+  transition-duration: 2s;
+}
