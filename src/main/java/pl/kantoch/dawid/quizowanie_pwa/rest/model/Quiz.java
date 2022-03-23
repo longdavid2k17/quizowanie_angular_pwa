@@ -30,6 +30,9 @@ public class Quiz
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<Tag> tagsSet;
 
+    @Transient
+    private Tag tag;
+
     @Column(name = "creation_date")
     @CreationTimestamp
     private Date creationDate;
@@ -44,6 +47,14 @@ public class Quiz
         this.category = category;
         this.tagsSet = tagsSet;
         this.creationDate = creationDate;
+    }
+
+    public Tag getTag() {
+        return tag;
+    }
+
+    public void setTag(Tag tag) {
+        this.tag = tag;
     }
 
     public Long getId() {

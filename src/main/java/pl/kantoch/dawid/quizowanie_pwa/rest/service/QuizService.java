@@ -8,7 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.kantoch.dawid.quizowanie_pwa.rest.model.Quiz;
+import pl.kantoch.dawid.quizowanie_pwa.rest.model.Tag;
 import pl.kantoch.dawid.quizowanie_pwa.rest.repository.QuizRepository;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Service
 public class QuizService
@@ -43,6 +48,12 @@ public class QuizService
     {
         try
         {
+            if(quiz.getTag()!=null)
+            {
+                Set<Tag> tagSet = new HashSet<>();
+                tagSet.add(quiz.getTag());
+                quiz.setTagsSet(tagSet);
+            }
             Quiz saved = quizRepository.save(quiz);
             return ResponseEntity.ok().body(saved);
         }
