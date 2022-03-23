@@ -1,31 +1,39 @@
 <form name="form" (ngSubmit)="f.form.valid && onSubmit()"#f="ngForm" novalidate>
   <div class="form-group">
     <label for="name">Nazwa quizu</label><br>
-    <input type="text"  id="name" name="name" [(ngModel)]="form.name" required #name="ngModel">
+    <input type="text" class="form-control" id="name" name="name" [(ngModel)]="form.name" required minlength="4" #name="ngModel">
   </div>
   <div class="form-group">
     <label for="description">Opis</label><br>
-    <input type="text"  id="description" name="description" [(ngModel)]="form.description" required #description="ngModel">
+    <input type="text" class="form-control" id="description" name="description" [(ngModel)]="form.description" required  minlength="4" #description="ngModel">
   </div>
   <div class="form-group">
     <mat-form-field appearance="fill">
       <mat-label>Kategoria</mat-label>
       <mat-select [(ngModel)]="selectedCategory" name="food">
-        <mat-option *ngFor="let category of categories" [value]="category.value">
+        <mat-option *ngFor="let category of categories" [value]="category">
           {{category.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
   </div>
-  <!--<div class="form-group">
+  <div class="form-group">
     <mat-form-field class="example-full-width" appearance="fill">
       <mat-label>Wybierz lub wpisz tag opisujący twój quiz</mat-label>
       <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let tag of tags | async" [value]="tag">
+      <mat-autocomplete #auto="matAutocomplete"
+                        [displayWith]="AutoCompleteDisplay"
+                        (optionSelected)="OnTagSelected($event.option)">
+        <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
           {{tag.name}}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
-  </div>-->
+  </div>
+  <div class="form-group">
+    <button mat-button (click)="onSubmit()" cdkFocusInitial class="btn btn-primary">Utwórz quiz</button>
+  </div>
+  <div *ngIf="errorMessage.length>0">
+    <span style="color:red;">{{errorMessage}}</span>
+  </div>
 </form>

@@ -19,6 +19,10 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatInputModule} from "@angular/material/input";
 import { QuizComponent } from './components/quiz/quiz.component';
 import { CreateQuizComponent } from './components/create-quiz/create-quiz.component';
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -45,9 +49,16 @@ import { CreateQuizComponent } from './components/create-quiz/create-quiz.compon
     MatSelectModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    MatInputModule
+    MatInputModule,
+    MatDialogModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule
   ],
-  providers: [],
+  providers: [
+    { provide: MatDialogRef, useValue: {} },
+    { provide: MAT_DIALOG_DATA, useValue: {} }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,17 +1,51 @@
-<div class="d-md-inline-flex row justify-content-center">
-
-  <div class="col-md-5 col-lg-4 col-xl-3 col-sm-6 d-flex align-items-stretch" *ngFor="let quiz of quizes" style="margin: 10px">
-    <div class="quizCard" (click)="openQuiz(quiz.id)">
-      <div class=" card shadow-lg border-0 py-2">
-        <div class="card-header border-0 mb-0">
-          <div class="row justify-content-between">
-            <div class="col-auto col-sm-auto">
-              <p>{{quiz.name}}</p>
+<div class="container">
+<!--  <div class="d-md-inline-flex row justify-content-center">
+    <div class="col-md-5 col-lg-4 col-xl-3 col-sm-6 d-flex align-items-stretch" *ngFor="let quiz of quizes" style="margin: 50px">
+      <div class="quizCard" (click)="openQuiz(quiz.id)" style="margin:100px;">
+        <div class=" card shadow-lg border-0 py-2">
+          <div class="card-header border-0 mb-0">
+            <div class="row justify-content-between">
+              <div class="col-auto col-sm-auto">
+                <p><b>{{quiz.name}}</b></p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>-->
+  <div class="card-wrapper">
+    <div class="d-md-inline-flex row justify-content-center">
+    <mat-card class="example-card" *ngFor="let quiz of quizes" style="min-width: 200px; margin: 50px">
+      <div>
+        <mat-card-header>
+          <mat-card-title>{{quiz.name}}</mat-card-title>
+          <mat-card-subtitle>
+            {{quiz.description}}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-icon>hourglass_full</mat-icon>
+        <mat-card-content>
+          <p>
+            {{quiz.description}}
+          </p>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <div style="text-align: center">
+            <button mat-raised-button color="accent" (click)="openQuiz(quiz.id)">Quizuj</button>
+            <br/>
+            <div style="margin: 20px">
+              <button mat-raised-button color="warn">Edytuj</button>
+              <button mat-raised-button color="primary">Udostępnij</button>
+            </div>
+          </div>
+        </mat-card-actions>
+      </div>
+    </mat-card>
+    </div>
   </div>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" [length]="totalElements" (page)="nextPage($event)"> </mat-paginator>
 </div>
-<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" [length]="totalElements" (page)="nextPage($event)"> </mat-paginator>
+
