@@ -17,9 +17,7 @@ export class QuizService {
     });
   }
 
-  save(name:any,description:any,category:any,tag:any):Observable<HttpResponse<any>>{
-    return this.http.post<any>(`${API}/save`,{
-      name,description,category,tag
-    });
+  save(quiz:any):Observable<HttpResponse<any>>{
+    return this.http.post<any>(`${API}/save`,quiz);
   }
 }

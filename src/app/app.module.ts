@@ -23,6 +23,8 @@ import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
+import {MatChipsModule} from "@angular/material/chips";
+import { AddCategoryComponent } from './components/add-category/add-category.component';
 
 @NgModule({
   declarations: [
@@ -31,30 +33,32 @@ import {MatIconModule} from "@angular/material/icon";
     EditQuizComponent,
     PerformQuizComponent,
     QuizComponent,
-    CreateQuizComponent
+    CreateQuizComponent,
+    AddCategoryComponent
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-      registrationStrategy: 'registerWhenStable:30000'
-    }),
-    BrowserAnimationsModule,
-    MatPaginatorModule,
-    ToastrModule.forRoot(),
-    FormsModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatAutocompleteModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatDialogModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule
-  ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        AppRoutingModule,
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: environment.production,
+            registrationStrategy: 'registerWhenStable:30000'
+        }),
+        BrowserAnimationsModule,
+        MatPaginatorModule,
+        ToastrModule.forRoot(),
+        FormsModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatDialogModule,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        MatChipsModule
+    ],
   providers: [
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: {} }

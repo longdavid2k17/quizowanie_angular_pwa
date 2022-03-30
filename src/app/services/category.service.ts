@@ -14,4 +14,10 @@ export class CategoryService {
   getAll():Observable<HttpResponse<any>>{
     return this.http.get<any>(`${API}/find-all`);
   }
+
+  save(role:any):Observable<any>
+  {
+    return this.http.post<any>(`${API}/save`,
+      role);
+  }
 }

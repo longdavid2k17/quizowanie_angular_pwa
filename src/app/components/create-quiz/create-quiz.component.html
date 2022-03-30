@@ -1,39 +1,52 @@
-<form name="form" (ngSubmit)="f.form.valid && onSubmit()"#f="ngForm" novalidate>
-  <div class="form-group">
-    <label for="name">Nazwa quizu</label><br>
-    <input type="text" class="form-control" id="name" name="name" [(ngModel)]="form.name" required minlength="4" #name="ngModel">
-  </div>
-  <div class="form-group">
-    <label for="description">Opis</label><br>
-    <input type="text" class="form-control" id="description" name="description" [(ngModel)]="form.description" required  minlength="4" #description="ngModel">
-  </div>
-  <div class="form-group">
-    <mat-form-field appearance="fill">
-      <mat-label>Kategoria</mat-label>
-      <mat-select [(ngModel)]="selectedCategory" name="food">
-        <mat-option *ngFor="let category of categories" [value]="category">
-          {{category.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div class="form-group">
-    <mat-form-field class="example-full-width" appearance="fill">
-      <mat-label>Wybierz lub wpisz tag opisujący twój quiz</mat-label>
-      <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete"
-                        [displayWith]="AutoCompleteDisplay"
-                        (optionSelected)="OnTagSelected($event.option)">
-        <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-          {{tag.name}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-  </div>
-  <div class="form-group">
-    <button mat-button (click)="onSubmit()" cdkFocusInitial class="btn btn-primary">Utwórz quiz</button>
-  </div>
-  <div *ngIf="errorMessage.length>0">
-    <span style="color:red;">{{errorMessage}}</span>
-  </div>
-</form>
+<div style="min-height: 90vh">
+  <mat-card>
+    <mat-card-content>
+      <form name="form" [formGroup]="form" (submit)="onSubmit()">
+        <div class="form-group">
+          <mat-form-field appearance="fill">
+            <mat-label>Nazwa quizu</mat-label>
+            <input matInput id="name" name="name" formControlName="name" required minlength="4" >
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="fill">
+            <mat-label>Opis</mat-label>
+            <input matInput id="description" name="description" formControlName="description" required minlength="4" >
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="fill">
+            <mat-label>Kategoria</mat-label>
+            <mat-select formControlName="category" required>
+              <mat-option *ngFor="let category of categories" [value]="category">
+                {{category.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div style="text-align: right" title="Dodaj kategorię" (click)="openCategoryForm()">
+            <mat-icon>add</mat-icon>
+          </div>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Wybierz lub wpisz tag opisujący twój quiz</mat-label>
+            <input matInput formControlName="tag" [formControl]="myControl" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete"
+                              [displayWith]="AutoCompleteDisplay"
+                              (optionSelected)="OnTagSelected($event.option)">
+              <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+                {{tag.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="form-group" style="text-align: center">
+          <button mat-raised-button type="submit" cdkFocusInitial class="btn btn-primary">Utwórz quiz</button>
+        </div>
+        <div *ngIf="errorMessage.length>0">
+          <span style="color:red;">{{errorMessage}}</span>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
