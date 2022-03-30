@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 import pl.kantoch.dawid.quizowanie_pwa.rest.model.Quiz;
 import pl.kantoch.dawid.quizowanie_pwa.rest.model.Tag;
 import pl.kantoch.dawid.quizowanie_pwa.rest.repository.QuizRepository;
+import pl.kantoch.dawid.quizowanie_pwa.rest.repository.TagsRepository;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Service
 public class QuizService
@@ -21,9 +21,11 @@ public class QuizService
     private final Logger LOGGER = LoggerFactory.getLogger(QuizService.class);
 
     private final QuizRepository quizRepository;
+    private final TagsRepository tagsRepository;
 
-    public QuizService(QuizRepository quizRepository) {
+    public QuizService(QuizRepository quizRepository, TagsRepository tagsRepository) {
         this.quizRepository = quizRepository;
+        this.tagsRepository = tagsRepository;
     }
 
     public ResponseEntity<?> findAllPageable(Pageable pageable) {
@@ -51,7 +53,7 @@ public class QuizService
             if(quiz.getTag()!=null)
             {
                 Set<Tag> tagSet = new HashSet<>();
-                tagSet.add(quiz.getTag());
+                tagSet.add(tagsRepository.save(quiz.getTag()));
                 quiz.setTagsSet(tagSet);
             }
             Quiz saved = quizRepository.save(quiz);
