@@ -25,6 +25,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatChipsModule} from "@angular/material/chips";
 import { AddCategoryComponent } from './components/add-category/add-category.component';
+import { AddTagsComponent } from './components/add-tags/add-tags.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { AddCategoryComponent } from './components/add-category/add-category.com
     PerformQuizComponent,
     QuizComponent,
     CreateQuizComponent,
-    AddCategoryComponent
+    AddCategoryComponent,
+    AddTagsComponent
   ],
     imports: [
         BrowserModule,

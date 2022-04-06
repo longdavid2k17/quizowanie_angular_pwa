@@ -8,6 +8,7 @@ import {map, Observable, startWith} from "rxjs";
 import {MatOption} from "@angular/material/core";
 import {AddCategoryComponent} from "../add-category/add-category.component";
 import {MatDialog} from "@angular/material/dialog";
+import {AddTagsComponent} from "../add-tags/add-tags.component";
 
 @Component({
   selector: 'app-create-quiz',
@@ -49,14 +50,18 @@ export class CreateQuizComponent implements OnInit {
     },error => {
       console.log(error.error)
     });
+
     this.filteredTags = this.myControl.valueChanges
       .pipe(
         startWith(''),
         map(tag => tag ? this.filterTags(tag) : this.tagsDB.slice())
       );
+    console.log(this.filteredTags);
   }
 
   filterTags(name: string) {
+    console.log(this.tagsDB.filter(tag =>
+      tag.name.toLowerCase().indexOf(name.toLowerCase()) === 0));
     return this.tagsDB.filter(tag =>
       tag.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
@@ -71,6 +76,7 @@ export class CreateQuizComponent implements OnInit {
     console.log(this.form.controls['tag'].value);
       this.quizService.save(this.form.value).subscribe(res=>{
           this.toastr.success("Poprawnie zapisano nowy quiz!","Sukces!")
+
         },
         error => {
           this.toastr.error(error.errorMessage,"Błąd!");
@@ -101,5 +107,14 @@ export class CreateQuizComponent implements OnInit {
 
   refresh(): void {
     window.location.reload();
+  }
+
+  openTagForm() {
+    const modalRef = this.dialog.open(AddTagsComponent, {
+      disableClose: true,
+    });
+    modalRef.afterClosed().subscribe(res =>{
+      this.refresh();
+    });
   }
 }

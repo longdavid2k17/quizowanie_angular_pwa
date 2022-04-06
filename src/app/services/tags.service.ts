@@ -14,4 +14,10 @@ export class TagsService {
   getAll():Observable<HttpResponse<any>>{
     return this.http.get<any>(`${API}/find-all`);
   }
+
+  save(tag:any):Observable<any>
+  {
+    return this.http.post<any>(`${API}/save`,
+      tag);
+  }
 }
