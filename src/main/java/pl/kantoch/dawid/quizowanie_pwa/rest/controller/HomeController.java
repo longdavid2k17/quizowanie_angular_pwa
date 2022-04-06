@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import pl.kantoch.dawid.quizowanie_pwa.rest.model.Quiz;
 import pl.kantoch.dawid.quizowanie_pwa.rest.service.QuizService;
@@ -24,9 +25,9 @@ public class HomeController
     }
 
     @GetMapping("/find-all")
-    public ResponseEntity<?> findAllQuizes(Pageable pageable)
+    public ResponseEntity<?> findAllQuizes(@RequestParam MultiValueMap<String,String> queryParams)
     {
-        return quizService.findAllPageable(pageable);
+        return quizService.findAllPageable(queryParams);
     }
 
     @GetMapping("/{id}")
