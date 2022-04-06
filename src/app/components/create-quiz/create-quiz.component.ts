@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {TagsService} from "../../services/tags.service";
 import {CategoryService} from "../../services/category.service";
@@ -9,6 +9,7 @@ import {MatOption} from "@angular/material/core";
 import {AddCategoryComponent} from "../add-category/add-category.component";
 import {MatDialog} from "@angular/material/dialog";
 import {AddTagsComponent} from "../add-tags/add-tags.component";
+import {DOCUMENT} from "@angular/common";
 
 @Component({
   selector: 'app-create-quiz',
@@ -24,7 +25,8 @@ export class CreateQuizComponent implements OnInit {
   tagsDB:any[] = [];
   filteredTags: Observable<any[]>;
 
-  constructor(private tagsService:TagsService,
+  constructor(@Inject(DOCUMENT) private document: Document,
+              private tagsService:TagsService,
               private categoryService:CategoryService,
               private quizService:QuizService,
               private toastr:ToastrService,
@@ -76,7 +78,9 @@ export class CreateQuizComponent implements OnInit {
     console.log(this.form.controls['tag'].value);
       this.quizService.save(this.form.value).subscribe(res=>{
           this.toastr.success("Poprawnie zapisano nowy quiz!","Sukces!")
-
+          setTimeout(() =>{
+            this.document.location.href = '/add-questions';
+          },2000);
         },
         error => {
           this.toastr.error(error.errorMessage,"Błąd!");

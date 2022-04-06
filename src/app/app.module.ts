@@ -26,6 +26,8 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatChipsModule} from "@angular/material/chips";
 import { AddCategoryComponent } from './components/add-category/add-category.component';
 import { AddTagsComponent } from './components/add-tags/add-tags.component';
+import { AddQuestionComponent } from './components/add-question/add-question.component';
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 @NgModule({
   declarations: [
@@ -36,31 +38,33 @@ import { AddTagsComponent } from './components/add-tags/add-tags.component';
     QuizComponent,
     CreateQuizComponent,
     AddCategoryComponent,
-    AddTagsComponent
+    AddTagsComponent,
+    AddQuestionComponent
   ],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        AppRoutingModule,
-        ServiceWorkerModule.register('ngsw-worker.js', {
-            enabled: environment.production,
-            registrationStrategy: 'registerWhenStable:30000'
-        }),
-        BrowserAnimationsModule,
-        MatPaginatorModule,
-        ToastrModule.forRoot(),
-        FormsModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatAutocompleteModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        MatDialogModule,
-        MatCardModule,
-        MatButtonModule,
-        MatIconModule,
-        MatChipsModule
-    ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
+    BrowserAnimationsModule,
+    MatPaginatorModule,
+    ToastrModule.forRoot(),
+    FormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatDialogModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatChipsModule,
+    DragDropModule
+  ],
   providers: [
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: {} }
