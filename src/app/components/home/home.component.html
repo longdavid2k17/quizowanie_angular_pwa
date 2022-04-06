@@ -1,7 +1,7 @@
 <div class="search" style="text-align: center; width: 100%">
   <form class="form-inline">
     <mat-form-field >
-      <input type="text" matInput placeholder="Szukaj quizu">
+      <input type="text" #txtVal matInput placeholder="Szukaj quizu" (keydown.enter)="getValue(txtVal.value)">
     </mat-form-field>
   </form>
 </div>

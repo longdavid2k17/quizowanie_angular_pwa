@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
 
   quizes:any[]=[];
   totalElements: number = 0;
+  activeFilter:any;
   constructor(private quizService:QuizService,
               private toastr: ToastrService,
               private router:Router,
@@ -30,16 +31,40 @@ export class HomeComponent implements OnInit {
     this.getData(request);
   }
 
-  getData(request:any){
-    this.quizService.getALl(request).subscribe(res =>{
+  getData(request?:any){
+    this.quizService.getAll(request).subscribe(res =>{
       // @ts-ignore
       this.quizes = res['content'];
       // @ts-ignore
       this.totalElements = res['totalElements'];
     },error => {
       console.log(error);
-      this.toastr.error(error.errorMessage,'Błąd!');
+      this.toastr.error(error.error,'Błąd!');
     });
+  }
+
+  getValue(value:any){
+    if(value.length>0)
+    {
+      const request = {};
+      // @ts-ignore
+      request['page'] = 0;
+      // @ts-ignore
+      request['size'] = 5;
+      // @ts-ignore
+      request['filter'] = value;
+      this.activeFilter = value;
+      this.getData(request);
+    }
+    else {
+      this.activeFilter=null;
+      const request = {};
+      // @ts-ignore
+      request['page'] = 0;
+      // @ts-ignore
+      request['size'] = 5;
+      this.getData(request);
+    }
   }
 
   nextPage(event: PageEvent) {
@@ -48,6 +73,11 @@ export class HomeComponent implements OnInit {
     request['page'] = event.pageIndex.toString();
     // @ts-ignore
     request['size'] = event.pageSize.toString();
+
+    if(this.activeFilter)
+      { // @ts-ignore
+        request['filter'] = this.activeFilter;
+      }
     this.getData(request);
   }
 

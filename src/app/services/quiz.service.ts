@@ -11,7 +11,7 @@ export class QuizService {
 
   constructor(private http:HttpClient) { }
 
-  getALl(params?:any):Observable<HttpResponse<any>>{
+  getAll(params?:any):Observable<HttpResponse<any>>{
     return this.http.get<any>(`${API}/find-all`,{
       params
     });
