@@ -1,10 +1,9 @@
 package pl.kantoch.dawid.quizowanie_pwa.rest.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pl.kantoch.dawid.quizowanie_pwa.rest.model.Category;
+import pl.kantoch.dawid.quizowanie_pwa.rest.model.Tag;
 import pl.kantoch.dawid.quizowanie_pwa.rest.repository.TagsRepository;
 
 @RestController
@@ -23,5 +22,11 @@ public class TagsController
     public ResponseEntity<?> findAll()
     {
         return ResponseEntity.ok().body(tagsRepository.findAll());
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<?> save(@RequestBody Tag tag)
+    {
+        return ResponseEntity.ok().body(tagsRepository.save(tag));
     }
 }
