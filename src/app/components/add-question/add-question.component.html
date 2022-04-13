@@ -1,21 +1,65 @@
-<div style="min-height: 90vh">
-  <mat-card>
+<div style="min-height: 90vh; text-align: center">
+  <mat-card style="float: left; margin: 10px;">
+    <mat-card-title>
+      <h2>Aktualne pytania ({{existingQuestions.length}})</h2>
+    </mat-card-title>
     <mat-card-content>
-      <form [formGroup]="form" (submit)="onSubmit()">
+      <div *ngIf="existingQuestions && existingQuestions.length>0">
+        <div *ngFor="let question of existingQuestions">
+          <button mat-button title="Edytuj"><mat-icon>edit</mat-icon></button>{{question.text}}
+        </div>
+      </div>
+      <div *ngIf="!existingQuestions || existingQuestions.length==0">
+        <span>Brak pytań w bazie! Utwórz jakieś aby kontynuować</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card style="float: left; margin: 10px;">
+    <mat-card-title>
+      <h2>Dodaj nowe pytanie</h2>
+    </mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="form">
         <div mat-dialog-content>
           <div class="form-group">
             <mat-form-field appearance="fill">
-              <mat-label>Pytanie</mat-label>
-              <input matInput name="name" formControlName="name" required>
+              <mat-label>Treść pytania</mat-label>
+              <input matInput name="name" formControlName="name" required (change)="onChangeEvent($event)">
             </mat-form-field>
           </div>
+          <hr style="width: 90%"/>
           <div class="form-group">
-            <label>Dodaj pytanie</label>
-            <button mat-icon-button><mat-icon>add</mat-icon></button>
+            <h3>Odpowiedzi</h3>
+            <div *ngIf="answers && answers.length>0">
+              <div *ngFor="let answer of answers">
+                <div>
+                  <button mat-button title="Usuń odpowiedź"><mat-icon>delete</mat-icon></button> {{answer.text}} - <input type="checkbox" title="Oznacz jako prawidłowa odpowiedź" (change)="checkValue($event,answer)" >
+                </div>
+              </div>
+            </div>
+            <mat-form-field appearance="fill">
+              <mat-label>Odpowiedź</mat-label>
+              <input matInput name="answer" formControlName="answer">
+            </mat-form-field>
+            <div *ngIf="!answers || answers.length==0">
+              <span>Dodaj przynajmniej 2 odpowiedzi do pytania</span>
+            </div>
+            <div *ngIf="errorMessageAnswers" style="color: red">
+              <span>{{errorMessageAnswers}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Dodaj odpowiedź</label>
+            <button mat-icon-button type="button" (click)="addAnswer()"><mat-icon>add</mat-icon></button>
           </div>
         </div>
+        <hr style="width: 90%"/>
         <mat-dialog-actions align="end">
-          <button mat-raised-button title="Zapisz" type="submit">
+          <button mat-raised-button title="Zapisz" type="submit" disabled *ngIf="!answers || answers.length<2">
+            Zapisz
+          </button>
+          <button mat-raised-button title="Zapisz" type="submit" *ngIf="answers && answers.length>=2" (click)="addQuestionPackage()">
             Zapisz
           </button>
           <button mat-button mat-dialog-close>
@@ -23,7 +67,19 @@
           </button>
         </mat-dialog-actions>
       </form>
-
     </mat-card-content>
   </mat-card>
+  <div style="position: absolute;
+  bottom: 0;
+  left: 0;
+right: 0;
+margin-bottom: 50px">
+    <div *ngIf="errorGeneralMessage" style="color: red">
+      <span>{{errorGeneralMessage}}</span>
+    </div>
+    <h2>Działanie</h2>
+    <button mat-raised-button title="Anuluj">Anuluj</button>
+    <button mat-button title="Kontynuuj" *ngIf="existingQuestions && existingQuestions.length>0" (click)="save()">Zapisz</button>
+    <button mat-button title="Kontynuuj" *ngIf="!existingQuestions || existingQuestions.length==0" disabled>Zapisz</button>
+  </div>
 </div>

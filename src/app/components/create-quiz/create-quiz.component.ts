@@ -10,6 +10,7 @@ import {AddCategoryComponent} from "../add-category/add-category.component";
 import {MatDialog} from "@angular/material/dialog";
 import {AddTagsComponent} from "../add-tags/add-tags.component";
 import {DOCUMENT} from "@angular/common";
+import {AddQuestionComponent} from "../add-question/add-question.component";
 
 @Component({
   selector: 'app-create-quiz',
