@@ -19,6 +19,9 @@ public class Answer
     @Column(name = "is_correct")
     private Boolean isCorrect;
 
+    @Transient
+    private Integer poprawny;
+
     public Answer() {
     }
 
@@ -27,6 +30,14 @@ public class Answer
         this.questionId = questionId;
         this.text = text;
         this.isCorrect = isCorrect;
+    }
+
+    public Integer getPoprawny() {
+        return poprawny;
+    }
+
+    public void setPoprawny(Integer poprawny) {
+        this.poprawny = poprawny;
     }
 
     public Long getId() {

@@ -1,6 +1,7 @@
 package pl.kantoch.dawid.quizowanie_pwa.rest.model;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,6 +18,9 @@ public class Question
     @Column(name = "text")
     private String questionText;
 
+    @Transient
+    private List<Answer> answerList;
+
     public Question() {
     }
 
@@ -24,6 +28,14 @@ public class Question
         this.id = id;
         this.quizId = quizId;
         this.questionText = questionText;
+    }
+
+    public List<Answer> getAnswerList() {
+        return answerList;
+    }
+
+    public void setAnswerList(List<Answer> answerList) {
+        this.answerList = answerList;
     }
 
     public Long getQuizId() {
