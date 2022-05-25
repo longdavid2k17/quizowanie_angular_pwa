@@ -11,6 +11,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {AddTagsComponent} from "../add-tags/add-tags.component";
 import {DOCUMENT} from "@angular/common";
 import {AddQuestionComponent} from "../add-question/add-question.component";
+import {QuizOwnershipService} from "../../services/quiz-ownership.service";
 
 @Component({
   selector: 'app-create-quiz',
@@ -32,7 +33,8 @@ export class CreateQuizComponent implements OnInit {
               private quizService:QuizService,
               private toastr:ToastrService,
               private fb: FormBuilder,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private quizOwnership:QuizOwnershipService) {
     this.form = this.fb.group({
       name: [null, [Validators.required, Validators.minLength(3)]],
       description: [null, [Validators.required, Validators.minLength(3)]],
@@ -76,11 +78,11 @@ export class CreateQuizComponent implements OnInit {
     if(!this.form.controls['tag'].value?.id && this.form.controls['tag'].value){
       this.form.controls['tag'].setValue({id:null,name:this.form.controls['tag'].value});
     }
-    console.log(this.form.controls['tag'].value);
       this.quizService.save(this.form.value).subscribe(res=>{
           this.toastr.success("Poprawnie zapisano nowy quiz!","Sukces!")
           setTimeout(() =>{
-            this.document.location.href = '/add-questions';
+            this.quizOwnership.saveQuizId(res.id);
+            this.document.location.href = '/add-questions/'+res.id;
           },2000);
         },
         error => {

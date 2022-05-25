@@ -5,6 +5,8 @@ import {ToastrService} from "ngx-toastr";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {PerformQuizComponent} from "../perform-quiz/perform-quiz.component";
+import {QuestionsEditFormComponent} from "../questions-edit-form/questions-edit-form.component";
+import {QuizOwnershipService} from "../../services/quiz-ownership.service";
 
 @Component({
   selector: 'app-home',
@@ -20,7 +22,8 @@ export class HomeComponent implements OnInit {
               private toastr: ToastrService,
               private router:Router,
               private route: ActivatedRoute,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private quizOwnershipService:QuizOwnershipService) { }
 
   ngOnInit(): void {
     const request = {};
@@ -82,12 +85,26 @@ export class HomeComponent implements OnInit {
   }
 
   openQuiz(id:any) {
-    //this.router.navigate([`/quiz/${id}`]);
     const dialogConfig = new MatDialogConfig();
 
     //dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data={id};
     this.dialog.open(PerformQuizComponent, dialogConfig);
+  }
+
+  editQuis(id:any) {
+    const dialogConfig = new MatDialogConfig();
+
+    let quizes = this.quizOwnershipService.getIDs();
+    if(quizes?.includes(id+",")){
+      //dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.data={id};
+      this.dialog.open(QuestionsEditFormComponent, dialogConfig);
+    }
+    else {
+      this.toastr.error("Nie masz uprawnień do edycji tego quizu!");
+    }
   }
 }

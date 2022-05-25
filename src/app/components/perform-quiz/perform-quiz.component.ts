@@ -8,10 +8,24 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 })
 export class PerformQuizComponent implements OnInit {
 
+  quizId:any;
+  secondsCount: number = 5;
+
   constructor(public dialogRef: MatDialogRef<PerformQuizComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) { }
+              @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.quizId=data.id;
+  }
 
   ngOnInit(): void {
+    this.countdown();
+  }
+
+  countdown():void{
+/*        while (this.secondsCount!=0){
+      this.secondsCount=this.secondsCount-1;
+      setTimeout(() =>{
+      },1000);
+    }*/
   }
 
 }

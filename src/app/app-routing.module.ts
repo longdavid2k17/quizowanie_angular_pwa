@@ -5,7 +5,7 @@ import {CreateQuizComponent} from "./components/create-quiz/create-quiz.componen
 import {AddQuestionComponent} from "./components/add-question/add-question.component";
 
 const routes: Routes = [
-  { path: 'add-questions', component: AddQuestionComponent },
+  { path: 'add-questions/:id', component: AddQuestionComponent },
   { path: 'home', component: HomeComponent },
   { path: 'create', component: CreateQuizComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' }

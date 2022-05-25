@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { HomeComponent } from './components/home/home.component';
-import { EditQuizComponent } from './components/edit-quiz/edit-quiz.component';
 import { PerformQuizComponent } from './components/perform-quiz/perform-quiz.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatPaginatorModule} from "@angular/material/paginator";
@@ -28,18 +27,19 @@ import { AddCategoryComponent } from './components/add-category/add-category.com
 import { AddTagsComponent } from './components/add-tags/add-tags.component';
 import { AddQuestionComponent } from './components/add-question/add-question.component';
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import { QuestionsEditFormComponent } from './components/questions-edit-form/questions-edit-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    EditQuizComponent,
     PerformQuizComponent,
     QuizComponent,
     CreateQuizComponent,
     AddCategoryComponent,
     AddTagsComponent,
-    AddQuestionComponent
+    AddQuestionComponent,
+    QuestionsEditFormComponent
   ],
   imports: [
     BrowserModule,

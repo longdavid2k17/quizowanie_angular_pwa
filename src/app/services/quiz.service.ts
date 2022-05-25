@@ -17,7 +17,11 @@ export class QuizService {
     });
   }
 
-  save(quiz:any):Observable<HttpResponse<any>>{
+  getById(id:any):Observable<HttpResponse<any>>{
+    return this.http.get<any>(`${API}/${id}`);
+  }
+
+  save(quiz:any):Observable<any>{
     return this.http.post<any>(`${API}/save`,quiz);
   }
 }
