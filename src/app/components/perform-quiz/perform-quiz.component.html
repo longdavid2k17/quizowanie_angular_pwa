@@ -1,2 +1,27 @@
-<p></p>
-<p class="textClass">Rozpoczynamy quizowanie za {{secondsCount}}</p>
+<div mat-dialog-title class="dialog-title" cdkDrag
+     cdkDragRootElement=".cdk-overlay-pane"
+     cdkDragHandle  style="display: inline-block"
+     cdkDragBoundary=".cdk-overlay-container">
+  <h1>Quizowanie - {{quiz?.name}}</h1>
+  <button mat-button mat-dialog-close type="button" class="close" aria-label="Zamknij">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div mat-dialog-content>
+  <mat-card *ngIf="!endMessage">
+    <mat-card-title>Pytanie {{index+1}} z {{questions.length}} - {{currentQuestion?.questionText}}</mat-card-title>
+    <mat-card-content>
+      <div *ngFor="let ans of currentQuestion?.answerList" style="max-width: 400px">
+        <div style="margin: 50px; float: left">
+          <button type="button" class="block" (click)="nextQuestion(ans)">{{ans.text}}</button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card *ngIf="endMessage">
+    <mat-card-title>{{endMessage}}</mat-card-title>
+    <mat-card-content style="max-width: 400px">
+      <span>Tu będą wyniki</span>
+    </mat-card-content>
+  </mat-card>
+</div>
