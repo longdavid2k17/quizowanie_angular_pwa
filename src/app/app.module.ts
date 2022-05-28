@@ -46,8 +46,7 @@ import { QuestionsEditFormComponent } from './components/questions-edit-form/que
     HttpClientModule,
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-      registrationStrategy: 'registerWhenStable:30000'
+      enabled: environment.production
     }),
     BrowserAnimationsModule,
     MatPaginatorModule,

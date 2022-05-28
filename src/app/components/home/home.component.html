@@ -1,4 +1,6 @@
 <div class="search" style="text-align: center; width: 100%">
+  <span class="example-spacer"></span>
+  <button mat-raised-button color="accent" (click)="addToHomeScreen()">Dodaj do ekranu startowego</button>
   <form class="form-inline">
     <mat-form-field >
       <input type="text" #txtVal matInput placeholder="Szukaj quizu" (keydown.enter)="getValue(txtVal.value)">

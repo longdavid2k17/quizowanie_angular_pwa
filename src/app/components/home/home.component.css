@@ -10,3 +10,6 @@
   transition-timing-function: linear;
   transition-duration: 1s;
 }
+.example-spacer {
+  flex: 1 1 auto;
+}

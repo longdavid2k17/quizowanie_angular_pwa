@@ -8,7 +8,8 @@ const routes: Routes = [
   { path: 'add-questions/:id', component: AddQuestionComponent },
   { path: 'home', component: HomeComponent },
   { path: 'create', component: CreateQuizComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' }
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', redirectTo: 'home' }
 ];
 
 @NgModule({

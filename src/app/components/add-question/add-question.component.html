@@ -69,17 +69,17 @@
       </form>
     </mat-card-content>
   </mat-card>
-  <div style="position: absolute;
-  bottom: 0;
-  left: 0;
-right: 0;
-margin-bottom: 50px">
-    <div *ngIf="errorGeneralMessage" style="color: red">
-      <span>{{errorGeneralMessage}}</span>
-    </div>
-    <h2>Działanie</h2>
-    <button mat-raised-button title="Anuluj">Anuluj</button>
-    <button mat-button title="Kontynuuj" *ngIf="existingQuestions && existingQuestions.length>0" (click)="save()">Zapisz</button>
-    <button mat-button title="Kontynuuj" *ngIf="!existingQuestions || existingQuestions.length==0" disabled>Zapisz</button>
-  </div>
+  <mat-card style="float: left; margin: 10px;">
+    <mat-card-content>
+      <div >
+        <div *ngIf="errorGeneralMessage" style="color: red">
+          <span>{{errorGeneralMessage}}</span>
+        </div>
+        <h2>Działanie</h2>
+        <button mat-raised-button title="Anuluj">Anuluj</button>
+        <button mat-button title="Kontynuuj" *ngIf="existingQuestions && existingQuestions.length>0" (click)="save()">Zapisz</button>
+        <button mat-button title="Kontynuuj" *ngIf="!existingQuestions || existingQuestions.length==0" disabled>Zapisz</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

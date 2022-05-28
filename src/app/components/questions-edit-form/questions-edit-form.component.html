@@ -1,111 +1,122 @@
-<div style="min-height: 90vh; text-align: center">
+<div mat-dialog-title class="dialog-title" cdkDrag
+     cdkDragRootElement=".cdk-overlay-pane"
+     cdkDragHandle  style="display: inline-block"
+     cdkDragBoundary=".cdk-overlay-container">
+  <h1>Edytuj quiz</h1>
+  <button mat-button mat-dialog-close type="button" class="close" aria-label="Zamknij">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div mat-dialog-content>
+  <div style="text-align: center">
+    <mat-card style="float: left; margin: 10px;">
+      <mat-card-title>
+        <h2>Aktualne pytania ({{existingQuestions.length}})</h2>
+      </mat-card-title>
+      <mat-card-content>
+        <div *ngIf="existingQuestions && existingQuestions.length>0">
+          <div *ngFor="let question of existingQuestions">
+            <button mat-button title="Usuń" (click)="remove(question)"><mat-icon>delete</mat-icon></button>{{question.questionText}} - LOLOLOL
+          </div>
+        </div>
+        <div *ngIf="!existingQuestions || existingQuestions.length==0">
+          <span>Brak pytań w bazie! Utwórz jakieś aby kontynuować</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
 
-  <mat-card style="float: left; margin: 10px;">
-    <mat-card-title>
-      <h2>Aktualne pytania ({{existingQuestions.length}})</h2>
-    </mat-card-title>
-    <mat-card-content>
-      <div *ngIf="existingQuestions && existingQuestions.length>0">
-        <div *ngFor="let question of existingQuestions">
-          <button mat-button title="Usuń" (click)="remove(question)"><mat-icon>delete</mat-icon></button>{{question.questionText}} - LOLOLOL
-        </div>
-      </div>
-      <div *ngIf="!existingQuestions || existingQuestions.length==0">
-        <span>Brak pytań w bazie! Utwórz jakieś aby kontynuować</span>
-      </div>
-    </mat-card-content>
-  </mat-card>
-
-  <mat-card style="float: left; margin: 10px;">
-    <mat-card-content>
-      <form name="formQuiz" [formGroup]="formQuiz" (submit)="onSubmit()">
-        <div class="form-group">
-          <mat-form-field appearance="fill">
-            <mat-label>Nazwa quizu</mat-label>
-            <input matInput id="name" name="name" formControlName="name" required minlength="4" >
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="fill">
-            <mat-label>Opis</mat-label>
-            <input matInput id="description" name="description" formControlName="description" required minlength="4" >
-          </mat-form-field>
-        </div>
-        <div class="form-group" style="text-align: center">
-          <button mat-raised-button type="submit" cdkFocusInitial class="btn btn-primary">Zapisz quiz</button>
-        </div>
-        <div *ngIf="errorMessage.length>0">
-          <span style="color:red;">{{errorMessage}}</span>
-        </div>
-      </form>
-    </mat-card-content>
-  </mat-card>
-
-  <mat-card style="float: left; margin: 10px;">
-    <mat-card-title>
-      <h2>Dodaj nowe pytanie</h2>
-    </mat-card-title>
-    <mat-card-content>
-      <form [formGroup]="form">
-        <div mat-dialog-content>
+    <mat-card style="float: left; margin: 10px;">
+      <mat-card-content>
+        <form name="formQuiz" [formGroup]="formQuiz" (submit)="onSubmit()">
           <div class="form-group">
             <mat-form-field appearance="fill">
-              <mat-label>Treść pytania</mat-label>
-              <input matInput name="name" formControlName="name" required (change)="onChangeEvent($event)">
+              <mat-label>Nazwa quizu</mat-label>
+              <input matInput id="name" name="name" formControlName="name" required minlength="4" >
             </mat-form-field>
           </div>
-          <hr style="width: 90%"/>
           <div class="form-group">
-            <h3>Odpowiedzi</h3>
-            <div *ngIf="answers && answers.length>0">
-              <div *ngFor="let answer of answers">
-                <div>
-                  <button mat-button title="Usuń odpowiedź"><mat-icon>delete</mat-icon></button> {{answer.text}} - <input type="checkbox" title="Oznacz jako prawidłowa odpowiedź" (change)="checkValue($event,answer)" >
+            <mat-form-field appearance="fill">
+              <mat-label>Opis</mat-label>
+              <input matInput id="description" name="description" formControlName="description" required minlength="4" >
+            </mat-form-field>
+          </div>
+          <div class="form-group" style="text-align: center">
+            <button mat-raised-button type="submit" cdkFocusInitial class="btn btn-primary">Zapisz quiz</button>
+          </div>
+          <div *ngIf="errorMessage.length>0">
+            <span style="color:red;">{{errorMessage}}</span>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card style="float: left; margin: 10px;">
+      <mat-card-title>
+        <h2>Dodaj nowe pytanie</h2>
+      </mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="form">
+          <div mat-dialog-content>
+            <div class="form-group">
+              <mat-form-field appearance="fill">
+                <mat-label>Treść pytania</mat-label>
+                <input matInput name="name" formControlName="name" required (change)="onChangeEvent($event)">
+              </mat-form-field>
+            </div>
+            <hr style="width: 90%"/>
+            <div class="form-group">
+              <h3>Odpowiedzi</h3>
+              <div *ngIf="answers && answers.length>0">
+                <div *ngFor="let answer of answers">
+                  <div>
+                    <button mat-button title="Usuń odpowiedź"><mat-icon>delete</mat-icon></button> {{answer.text}} - <input type="checkbox" title="Oznacz jako prawidłowa odpowiedź" (change)="checkValue($event,answer)" >
+                  </div>
                 </div>
               </div>
+              <mat-form-field appearance="fill">
+                <mat-label>Odpowiedź</mat-label>
+                <input matInput name="answer" formControlName="answer">
+              </mat-form-field>
+              <div *ngIf="!answers || answers.length==0">
+                <span>Dodaj przynajmniej 2 odpowiedzi do pytania</span>
+              </div>
+              <div *ngIf="errorMessageAnswers" style="color: red">
+                <span>{{errorMessageAnswers}}</span>
+              </div>
             </div>
-            <mat-form-field appearance="fill">
-              <mat-label>Odpowiedź</mat-label>
-              <input matInput name="answer" formControlName="answer">
-            </mat-form-field>
-            <div *ngIf="!answers || answers.length==0">
-              <span>Dodaj przynajmniej 2 odpowiedzi do pytania</span>
-            </div>
-            <div *ngIf="errorMessageAnswers" style="color: red">
-              <span>{{errorMessageAnswers}}</span>
+            <div class="form-group">
+              <label>Dodaj odpowiedź</label>
+              <button mat-icon-button type="button" (click)="addAnswer()"><mat-icon>add</mat-icon></button>
             </div>
           </div>
-          <div class="form-group">
-            <label>Dodaj odpowiedź</label>
-            <button mat-icon-button type="button" (click)="addAnswer()"><mat-icon>add</mat-icon></button>
+          <hr style="width: 90%"/>
+          <mat-dialog-actions align="end">
+            <button mat-raised-button title="Dodaj pytanie" type="submit" disabled *ngIf="!answers || answers.length<2">
+              Dodaj pytanie
+            </button>
+            <button mat-raised-button title="Dodaj pytanie" type="submit" *ngIf="answers && answers.length>=2" (click)="addQuestionPackage()">
+              Dodaj pytanie
+            </button>
+            <button mat-button mat-dialog-close>
+              Anuluj
+            </button>
+          </mat-dialog-actions>
+        </form>
+      </mat-card-content>
+    </mat-card>
+    <mat-card style="float: left; margin: 10px;">
+      <mat-card-content>
+        <div >
+          <div *ngIf="errorGeneralMessage" style="color: red">
+            <span>{{errorGeneralMessage}}</span>
           </div>
+          <h2>Działanie</h2>
+          <button mat-raised-button title="Anuluj">Anuluj</button>
+          <button mat-button title="Kontynuuj" *ngIf="existingQuestions && existingQuestions.length>0" (click)="save()">Zapisz</button>
+          <button mat-button title="Kontynuuj" *ngIf="!existingQuestions || existingQuestions.length==0" disabled>Zapisz</button>
         </div>
-        <hr style="width: 90%"/>
-        <mat-dialog-actions align="end">
-          <button mat-raised-button title="Dodaj pytanie" type="submit" disabled *ngIf="!answers || answers.length<2">
-            Dodaj pytanie
-          </button>
-          <button mat-raised-button title="Dodaj pytanie" type="submit" *ngIf="answers && answers.length>=2" (click)="addQuestionPackage()">
-            Dodaj pytanie
-          </button>
-          <button mat-button mat-dialog-close>
-            Anuluj
-          </button>
-        </mat-dialog-actions>
-      </form>
-    </mat-card-content>
-  </mat-card>
-  <div style="position: absolute;
-  bottom: 0;
-  left: 0;
-right: 0;
-margin-bottom: 50px">
-    <div *ngIf="errorGeneralMessage" style="color: red">
-      <span>{{errorGeneralMessage}}</span>
-    </div>
-    <h2>Działanie</h2>
-    <button mat-raised-button mat-dialog-close title="Anuluj">Anuluj</button>
-    <button mat-button title="Kontynuuj" *ngIf="existingQuestions && existingQuestions.length>0" (click)="save()">Zapisz pytania</button>
-    <button mat-button title="Kontynuuj" *ngIf="!existingQuestions || existingQuestions.length==0" disabled>Zapisz pytania</button>
+      </mat-card-content>
+    </mat-card>
   </div>
+
 </div>
