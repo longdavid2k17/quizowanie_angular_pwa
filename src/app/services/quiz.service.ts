@@ -24,4 +24,8 @@ export class QuizService {
   save(quiz:any):Observable<any>{
     return this.http.post<any>(`${API}/save`,quiz);
   }
+
+  getQuestionsState(id: any) :Observable<HttpResponse<any>>{
+    return this.http.get<any>(`${API}/check-for-questions/${id}`);
+  }
 }

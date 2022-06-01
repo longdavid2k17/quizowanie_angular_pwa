@@ -7,6 +7,7 @@ import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {PerformQuizComponent} from "../perform-quiz/perform-quiz.component";
 import {QuestionsEditFormComponent} from "../questions-edit-form/questions-edit-form.component";
 import {QuizOwnershipService} from "../../services/quiz-ownership.service";
+import {ErrorMessageClass} from "../add-question/add-question.component";
 
 @Component({
   selector: 'app-home',
@@ -113,12 +114,15 @@ export class HomeComponent implements OnInit {
   }
 
   openQuiz(id:any) {
-    const dialogConfig = new MatDialogConfig();
+    this.quizService.getQuestionsState(id).subscribe(res=>{
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.autoFocus = true;
+      dialogConfig.data={id};
+      this.dialog.open(PerformQuizComponent, dialogConfig);
+    },error => {
+      this.toastr.error(ErrorMessageClass.getErrorMessage(error),"Błąd!");
+    })
 
-    //dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data={id};
-    this.dialog.open(PerformQuizComponent, dialogConfig);
   }
 
   editQuis(id:any) {
