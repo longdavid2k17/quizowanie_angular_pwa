@@ -28,4 +28,12 @@ export class QuizService {
   getQuestionsState(id: any) :Observable<HttpResponse<any>>{
     return this.http.get<any>(`${API}/check-for-questions/${id}`);
   }
+
+  incrementPlaysCount(id: any) :Observable<HttpResponse<any>>{
+    return this.http.get<any>(`${API}/increment-plays/${id}`);
+  }
+
+  setReview(id:any, review: any) :Observable<HttpResponse<any>>{
+    return this.http.get<any>(`${API}/send-review/${id}/${review}`);
+  }
 }

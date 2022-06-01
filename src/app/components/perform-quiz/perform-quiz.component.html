@@ -3,14 +3,19 @@
      cdkDragHandle  style="display: inline-block"
      cdkDragBoundary=".cdk-overlay-container">
   <h1>{{quiz?.name ? quiz.name : "Quizowanie incognito"}}</h1>
-  <button mat-button mat-dialog-close type="button" class="close" aria-label="Zamknij">
+  <button mat-icon-button mat-dialog-close type="button" class="close" aria-label="Zamknij" [mat-dialog-close]="true">
     <mat-icon>close</mat-icon>
   </button>
 </div>
 <div mat-dialog-content>
   <mat-card *ngIf="!endMessage && !errorMessage">
     <div>
-      <mat-card-title>Pytanie {{index+1}} z {{questions.length}} - {{currentQuestion?.questionText}}</mat-card-title>
+      <mat-card-title>
+        <h3 class="text-danger">Q. {{currentQuestion?.questionText}}</h3>
+      </mat-card-title>
+      <mat-card-subtitle>
+        <span>({{index+1}}/{{questions.length}})</span>
+      </mat-card-subtitle>
       <mat-card-content>
         <div *ngFor="let ans of currentQuestion?.answerList" style="max-width: 400px">
           <div style="margin: 50px; float: left">
@@ -31,7 +36,28 @@
     <mat-card-content style="max-width: 400px;text-align: center">
       <span>
         <h4>
-          <b>{{endMessage}}</b>
+          <b>{{endMessage}}</b><br>
+          <p>{{result}}</p>
+          <mat-icon *ngIf="allCorrect">sentiment_very_satisfied</mat-icon>
+          <mat-icon *ngIf="mostCorrect">sentiment_satisfied</mat-icon>
+          <mat-icon *ngIf="lessCorrect">sentiment_very_dissatisfied</mat-icon>
+          <hr/>
+          <div>
+            <span>Oceń quiz</span><br/>
+            <span>
+              <mat-icon (click)="setReview(1)">star_border</mat-icon>
+              <mat-icon (click)="setReview(2)">star_border</mat-icon>
+              <mat-icon (click)="setReview(3)">star_border</mat-icon>
+              <mat-icon (click)="setReview(4)">star_border</mat-icon>
+              <mat-icon (click)="setReview(5)">star_border</mat-icon>
+            </span>
+            <br/>
+            <span *ngIf="review">Twoja ocena: {{review}}</span>
+            <br/>
+            <button mat-button type="button" (click)="sendReview()" *ngIf="review"><mat-icon>send</mat-icon></button>
+            <button mat-button type="button" *ngIf="!review" disabled><mat-icon>send</mat-icon></button>
+          </div>
+          <br/>
         </h4>
       </span>
     </mat-card-content>

@@ -90,6 +90,8 @@ export class HomeComponent implements OnInit {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.autoFocus = true;
       dialogConfig.data={id};
+      dialogConfig.minWidth="500px";
+      dialogConfig.panelClass= 'my-dialog';
       this.dialog.open(PerformQuizComponent, dialogConfig);
     },error => {
       this.toastr.error(ErrorMessageClass.getErrorMessage(error),"Błąd!");
