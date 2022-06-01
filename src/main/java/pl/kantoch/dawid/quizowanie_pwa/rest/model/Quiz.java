@@ -37,16 +37,39 @@ public class Quiz
     @CreationTimestamp
     private Date creationDate;
 
+    @Column(name = "run_count")
+    private Integer runCount;
+
+    @Transient
+    private Integer review;
+
     public Quiz() {
     }
 
-    public Quiz(Long id, String name, String description, Category category, Set<Tag> tagsSet, Date creationDate) {
+    public Quiz(Long id, String name, String description, Category category, Set<Tag> tagsSet, Date creationDate, Integer runCount) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.category = category;
         this.tagsSet = tagsSet;
         this.creationDate = creationDate;
+        this.runCount = runCount;
+    }
+
+    public Integer getReview() {
+        return review;
+    }
+
+    public void setReview(Integer review) {
+        this.review = review;
+    }
+
+    public Integer getRunCount() {
+        return runCount;
+    }
+
+    public void setRunCount(Integer runCount) {
+        this.runCount = runCount;
     }
 
     public Tag getTag() {

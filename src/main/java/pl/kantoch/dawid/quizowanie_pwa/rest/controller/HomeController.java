@@ -42,6 +42,16 @@ public class HomeController
         return quizService.checkQuizState(id);
     }
 
+    @GetMapping("/increment-plays/{id}")
+    public ResponseEntity<?> incrementPlaysCount(@PathVariable Long id){
+        return quizService.incrementPlaysCount(id);
+    }
+
+    @GetMapping("/send-review/{id}/{review}")
+    public ResponseEntity<?> setReview(@PathVariable Long id,@PathVariable Integer review){
+        return quizService.setReview(id,review);
+    }
+
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody Quiz quiz)
     {

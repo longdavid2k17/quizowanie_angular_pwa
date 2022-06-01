@@ -9,12 +9,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import pl.kantoch.dawid.quizowanie_pwa.rest.model.Question;
 import pl.kantoch.dawid.quizowanie_pwa.rest.model.Quiz;
+import pl.kantoch.dawid.quizowanie_pwa.rest.model.Review;
 import pl.kantoch.dawid.quizowanie_pwa.rest.model.Tag;
 import pl.kantoch.dawid.quizowanie_pwa.rest.repository.QuestionRepository;
 import pl.kantoch.dawid.quizowanie_pwa.rest.repository.QuizRepository;
+import pl.kantoch.dawid.quizowanie_pwa.rest.repository.ReviewRepository;
 import pl.kantoch.dawid.quizowanie_pwa.rest.repository.TagsRepository;
 
 import java.util.HashSet;
@@ -32,13 +35,16 @@ public class QuizService
     private final QuizRepository quizRepository;
     private final TagsRepository tagsRepository;
     private final QuestionRepository questionRepository;
+    private final ReviewRepository reviewRepository;
 
     public QuizService(QuizRepository quizRepository,
                        TagsRepository tagsRepository,
-                       QuestionRepository questionRepository) {
+                       QuestionRepository questionRepository,
+                       ReviewRepository reviewRepository) {
         this.quizRepository = quizRepository;
         this.tagsRepository = tagsRepository;
         this.questionRepository = questionRepository;
+        this.reviewRepository = reviewRepository;
     }
 
     public ResponseEntity<?> findAllPageable(MultiValueMap<String,String> queryParams) {
@@ -55,6 +61,12 @@ public class QuizService
             if(search!=null)
                 page = quizRepository.findAllByNameContainsOrDescriptionContains(search,search,pageRequest);
             else page = quizRepository.findAll(pageRequest);
+            for(Quiz quiz : page.getContent()){
+                List<Review> list = reviewRepository.findAllByQuiz_Id(quiz.getId());
+                int allReviewsSum = list.stream().mapToInt(Review::getStarCounts).sum();
+                if(list.size()>0) quiz.setReview(allReviewsSum/list.size());
+                if(list.size()==0) quiz.setReview(0);
+            }
             return ResponseEntity.ok().body(page);
         }
         catch (Exception e) {
@@ -107,6 +119,42 @@ public class QuizService
         }
         catch (Exception e){
             LOGGER.error("Błąd podczas sprawdzania statusu quizu! {}",e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Gson().toJson("Wystąpił błąd podczas walidowania quizu! "+e.getMessage()));
+        }
+    }
+
+    @Transactional
+    public ResponseEntity<?> incrementPlaysCount(Long id) {
+        try {
+            Optional<Quiz> optional = quizRepository.findById(id);
+            if(optional.isEmpty()) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Gson().toJson("Nie znaleziono danych quizu!"));
+            Quiz quiz = optional.get();
+            if(quiz.getRunCount()!=null){
+                quiz.setRunCount(quiz.getRunCount()+1);
+            } else quiz.setRunCount(1);
+            quizRepository.save(quiz);
+            return ResponseEntity.ok().build();
+        }
+        catch (Exception e){
+            LOGGER.error("Błąd podczas sprawdzania statusu quizu! {}",e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Gson().toJson("Wystąpił błąd podczas walidowania quizu! "+e.getMessage()));
+        }
+    }
+
+    @Transactional
+    public ResponseEntity<?> setReview(Long id,Integer stars) {
+        try {
+            Optional<Quiz> optional = quizRepository.findById(id);
+            if(optional.isEmpty()) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Gson().toJson("Nie znaleziono danych quizu!"));
+            Review review = new Review();
+            review.setStarCounts(stars);
+            review.setQuiz(optional.get());
+            Review saved = reviewRepository.save(review);
+            return ResponseEntity.ok().build();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            LOGGER.error("Błąd podczas ustawiania oceny! {}",e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Gson().toJson("Wystąpił błąd podczas walidowania quizu! "+e.getMessage()));
         }
     }
