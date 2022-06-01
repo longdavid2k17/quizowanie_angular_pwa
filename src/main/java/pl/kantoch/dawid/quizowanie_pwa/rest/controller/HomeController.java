@@ -36,6 +36,12 @@ public class HomeController
         return quizService.findById(id);
     }
 
+    @GetMapping("/check-for-questions/{id}")
+    public ResponseEntity<?> checkQuizState(@PathVariable Long id)
+    {
+        return quizService.checkQuizState(id);
+    }
+
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody Quiz quiz)
     {

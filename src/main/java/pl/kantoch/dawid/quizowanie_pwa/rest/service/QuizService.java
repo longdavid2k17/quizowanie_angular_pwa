@@ -5,19 +5,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.RequestBody;
+import pl.kantoch.dawid.quizowanie_pwa.rest.model.Question;
 import pl.kantoch.dawid.quizowanie_pwa.rest.model.Quiz;
 import pl.kantoch.dawid.quizowanie_pwa.rest.model.Tag;
+import pl.kantoch.dawid.quizowanie_pwa.rest.repository.QuestionRepository;
 import pl.kantoch.dawid.quizowanie_pwa.rest.repository.QuizRepository;
 import pl.kantoch.dawid.quizowanie_pwa.rest.repository.TagsRepository;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -30,10 +31,14 @@ public class QuizService
 
     private final QuizRepository quizRepository;
     private final TagsRepository tagsRepository;
+    private final QuestionRepository questionRepository;
 
-    public QuizService(QuizRepository quizRepository, TagsRepository tagsRepository) {
+    public QuizService(QuizRepository quizRepository,
+                       TagsRepository tagsRepository,
+                       QuestionRepository questionRepository) {
         this.quizRepository = quizRepository;
         this.tagsRepository = tagsRepository;
+        this.questionRepository = questionRepository;
     }
 
     public ResponseEntity<?> findAllPageable(MultiValueMap<String,String> queryParams) {
@@ -89,6 +94,20 @@ public class QuizService
         {
             LOGGER.error(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Błąd podczas zapisu quizu! Komunikat: "+e.getMessage());
+        }
+    }
+
+    public ResponseEntity<?> checkQuizState(Long id) {
+        try {
+            Optional<Quiz> optional = quizRepository.findById(id);
+            if(optional.isEmpty()) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Gson().toJson("Nie znaleziono danych quizu!"));
+            List<Question> questionList = questionRepository.findAllByQuizIdEquals(id);
+            if(questionList.size()==0) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Gson().toJson("Ten quiz nie ma zdefiniowanych żadnych pytań i nie może zostać uruchomiony!"));
+            return ResponseEntity.ok().build();
+        }
+        catch (Exception e){
+            LOGGER.error("Błąd podczas sprawdzania statusu quizu! {}",e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Gson().toJson("Wystąpił błąd podczas walidowania quizu! "+e.getMessage()));
         }
     }
 }
