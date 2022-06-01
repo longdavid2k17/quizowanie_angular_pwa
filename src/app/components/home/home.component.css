@@ -1,15 +1,22 @@
-.quizCard {
-  background-color: #92e0f6;
-  transition-delay: 0.1s;
-  transition-timing-function: linear;
-  transition-duration: 1s;
+home-background{
+  background-color: whitesmoke;
 }
-.quizCard:hover {
-  background-color: #2855f1;
-  transition-delay: 0.1s;
+.example-card {
+  display: inline-block;
+  background-color: white;
+  transition-delay: 0.3s;
   transition-timing-function: linear;
-  transition-duration: 1s;
+  transition-duration: 5s;
+  transition: background-color 2s ease-out;
 }
-.example-spacer {
-  flex: 1 1 auto;
+.example-card:hover {
+  background-color: lightgray;
+  transition-delay: 0.3s;
+  transition-timing-function: linear;
+  transition-duration: 5s;
+  transition: background-color 2s ease-out;
+}
+mat-card-actions{
+  display: inline-block;
+  align-self: flex-end;
 }

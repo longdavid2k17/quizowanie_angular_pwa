@@ -12,3 +12,6 @@ a {
   transition-timing-function: linear;
   transition-duration: 2s;
 }
+.example-spacer {
+  flex: 1 1 auto;
+}

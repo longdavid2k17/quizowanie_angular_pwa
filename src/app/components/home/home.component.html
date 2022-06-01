@@ -1,44 +1,46 @@
-<div class="search" style="text-align: center; width: 100%">
-  <span class="example-spacer"></span>
-  <button mat-raised-button color="accent" (click)="addToHomeScreen()">Dodaj do ekranu startowego</button>
-  <form class="form-inline">
-    <mat-form-field >
-      <input type="text" #txtVal matInput placeholder="Szukaj quizu" (keydown.enter)="getValue(txtVal.value)">
-    </mat-form-field>
-  </form>
-</div>
-<div class="container">
-  <div class="card-wrapper">
-    <div class="d-md-inline-flex row justify-content-center">
-    <mat-card class="example-card" *ngFor="let quiz of quizes" style="min-width: 200px; margin: 50px">
-      <div>
-        <mat-card-header>
-          <mat-card-title>{{quiz.name}}</mat-card-title>
-          <mat-card-subtitle>
-            {{quiz?.category ? quiz.category.name : "Brak zdefiniowanej kategorii"}}
-          </mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <span>
-            {{quiz.description}}
-          </span>
-        </mat-card-content>
+<div class="home-background">
+  <div class="search" style="text-align: center; width: 100%">
+    <form class="form-inline">
+      <mat-form-field >
+        <input type="text" #txtVal matInput placeholder="Szukaj quizu" (keydown.enter)="getValue(txtVal.value)">
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="container">
+    <div class="card-wrapper">
+      <div class="row align-items-start">
+        <div class="row">
+          <mat-card class="example-card" *ngFor="let quiz of quizes" style="display: inline-block; float: left; margin: 10px; width: 400px">
+            <div>
+              <mat-card-header>
+                <mat-card-title>{{quiz.name}}</mat-card-title>
+                <mat-card-subtitle>
+                  {{quiz?.category ? quiz.category.name : "Brak zdefiniowanej kategorii"}}
+                </mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+              <span>
+                {{quiz.description}}
+              </span>
+              </mat-card-content>
+              <div style="text-align: center;margin: 20px">
+                <mat-card-footer>
+                  <mat-card-actions>
+                    <button mat-raised-button mat-button color="primary" (click)="openQuiz(quiz.id)">Quizuj <mat-icon>play_arrow</mat-icon></button>
+                    <button mat-raised-button mat-button color="warn" (click)="editQuis(quiz.id)">Edytuj <mat-icon>edit</mat-icon></button>
+                  </mat-card-actions>
+                </mat-card-footer>
+              </div>
 
-        <mat-card-actions>
-          <div style="text-align: center">
-            <button mat-raised-button color="accent" (click)="openQuiz(quiz.id)">Quizuj</button>
-            <br/>
-            <div style="margin: 20px">
-              <button mat-raised-button color="warn" (click)="editQuis(quiz.id)">Edytuj</button>
-              <button mat-raised-button color="primary">Udostępnij</button>
+
             </div>
-          </div>
-        </mat-card-actions>
+          </mat-card>
+        </div>
       </div>
-    </mat-card>
     </div>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10" [length]="totalElements" (page)="nextPage($event)"> </mat-paginator>
   </div>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" [length]="totalElements" (page)="nextPage($event)"> </mat-paginator>
-</div>
 
+</div>

@@ -15,8 +15,7 @@ import {ErrorMessageClass} from "../add-question/add-question.component";
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  deferredPrompt: any;
-  showButton = false;
+
   quizes:any[]=[];
   totalElements: number = 0;
   activeFilter:any;
@@ -27,39 +26,12 @@ export class HomeComponent implements OnInit {
               private dialog: MatDialog,
               private quizOwnershipService:QuizOwnershipService) { }
 
-  @HostListener('window:beforeinstallprompt', ['$event'])
-  onbeforeinstallprompt(e: { preventDefault: () => void; }) {
-    console.log(e);
-    // Prevent Chrome 67 and earlier from automatically showing the prompt
-    e.preventDefault();
-    // Stash the event so it can be triggered later.
-    this.deferredPrompt = e;
-    this.showButton = true;
-  }
-
-  addToHomeScreen() {
-    // hide our user interface that shows our A2HS button
-    this.showButton = false;
-    // Show the prompt
-    this.deferredPrompt.prompt();
-    // Wait for the user to respond to the prompt
-    this.deferredPrompt.userChoice
-      .then((choiceResult: { outcome: string; }) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the A2HS prompt');
-        } else {
-          console.log('User dismissed the A2HS prompt');
-        }
-        this.deferredPrompt = null;
-      });
-  }
-
   ngOnInit(): void {
     const request = {};
     // @ts-ignore
     request['page'] = 0;
     // @ts-ignore
-    request['size'] = 5;
+    request['size'] = 10;
     this.getData(request);
   }
 
@@ -82,7 +54,7 @@ export class HomeComponent implements OnInit {
       // @ts-ignore
       request['page'] = 0;
       // @ts-ignore
-      request['size'] = 5;
+      request['size'] = 10;
       // @ts-ignore
       request['filter'] = value;
       this.activeFilter = value;
@@ -94,7 +66,7 @@ export class HomeComponent implements OnInit {
       // @ts-ignore
       request['page'] = 0;
       // @ts-ignore
-      request['size'] = 5;
+      request['size'] = 10;
       this.getData(request);
     }
   }
