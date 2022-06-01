@@ -2,26 +2,38 @@
      cdkDragRootElement=".cdk-overlay-pane"
      cdkDragHandle  style="display: inline-block"
      cdkDragBoundary=".cdk-overlay-container">
-  <h1>Quizowanie - {{quiz?.name}}</h1>
+  <h1>{{quiz?.name ? quiz.name : "Quizowanie incognito"}}</h1>
   <button mat-button mat-dialog-close type="button" class="close" aria-label="Zamknij">
     <mat-icon>close</mat-icon>
   </button>
 </div>
 <div mat-dialog-content>
-  <mat-card *ngIf="!endMessage">
-    <mat-card-title>Pytanie {{index+1}} z {{questions.length}} - {{currentQuestion?.questionText}}</mat-card-title>
-    <mat-card-content>
-      <div *ngFor="let ans of currentQuestion?.answerList" style="max-width: 400px">
-        <div style="margin: 50px; float: left">
-          <button type="button" class="block" (click)="nextQuestion(ans)">{{ans.text}}</button>
+  <mat-card *ngIf="!endMessage && !errorMessage">
+    <div>
+      <mat-card-title>Pytanie {{index+1}} z {{questions.length}} - {{currentQuestion?.questionText}}</mat-card-title>
+      <mat-card-content>
+        <div *ngFor="let ans of currentQuestion?.answerList" style="max-width: 400px">
+          <div style="margin: 50px; float: left">
+            <button type="button" class="block" (click)="nextQuestion(ans)">{{ans.text}}</button>
+          </div>
         </div>
-      </div>
+      </mat-card-content>
+    </div>
+  </mat-card>
+  <mat-card *ngIf="errorMessage">
+    <mat-card-title>Błąd serwera!</mat-card-title>
+    <mat-card-content style="max-width: 400px; color: red">
+      <span>{{errorMessage}}</span>
     </mat-card-content>
   </mat-card>
-  <mat-card *ngIf="endMessage">
-    <mat-card-title>{{endMessage}}</mat-card-title>
-    <mat-card-content style="max-width: 400px">
-      <span>Tu będą wyniki</span>
+  <mat-card *ngIf="endMessage" style="text-align: center">
+    <mat-card-title><h1><b>Koniec quizu!</b></h1></mat-card-title>
+    <mat-card-content style="max-width: 400px;text-align: center">
+      <span>
+        <h4>
+          <b>{{endMessage}}</b>
+        </h4>
+      </span>
     </mat-card-content>
   </mat-card>
 </div>

@@ -9,14 +9,14 @@ import {QuestionsService} from "../../services/questions.service";
   styleUrls: ['./perform-quiz.component.css']
 })
 export class PerformQuizComponent implements OnInit {
-
+  correctAnswers:number=0;
   quiz:any;
   questions:any=[];
   currentQuestion:any;
   index:number=0;
-  secondsCount: number = 5;
   entryData:any;
   endMessage:any;
+  errorMessage:any;
 
   constructor(public dialogRef: MatDialogRef<PerformQuizComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -26,26 +26,32 @@ export class PerformQuizComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.quizService.getById(this.entryData.id).subscribe(res=>{
-      this.quiz = res;
+    this.quizService.getQuestionsState(this.entryData.id).subscribe(res=>{
+      this.quizService.getById(this.entryData.id).subscribe(res=>{
+        this.quiz = res;
+      });
+      this.questionsService.getAllById(this.entryData.id).subscribe(res=>{
+        this.questions = res;
+        if(this.questions && this.questions.length>0) {
+          this.currentQuestion = this.questions[this.index];
+        }
+      });
+    },error => {
+      this.errorMessage = "Wystąpił błąd podczas uruchamiania quizu!";
     });
-    this.questionsService.getAllById(this.entryData.id).subscribe(res=>{
-      this.questions = res;
-      if(this.questions && this.questions.length>0) {
-        this.currentQuestion = this.questions[this.index];
-      }
-    });
-
   }
 
-  nextQuestion(ans:any):void{
+  nextQuestion(answer:any):void{
+    if(answer?.correct && (answer.correct===true || answer.correct==="true")){
+      this.correctAnswers++;
+    }
     if(this.index<this.questions.length){
       this.index++;
       this.currentQuestion = this.questions[this.index];
       console.log("Aktualny index pytania: "+this.index)
     }
-    else {
-      this.endMessage = "Koniec quizu!"
+    if(this.index==this.questions.length) {
+      this.endMessage = "Twój wynik to "+this.correctAnswers+" poprawnych odpowiedzi z "+this.questions.length;
       console.log("KONIEC!")
     }
   }
